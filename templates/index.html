@@ -4,8 +4,20 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Citybikes</title>
+    <script>
+        const networks = JSON.parse('{{ networks|tojson }}');
+    </script>
+    <script src='https://api.mapbox.com/mapbox-gl-js/v3.4.0/mapbox-gl.js'></script>
+    <link href='https://api.mapbox.com/mapbox-gl-js/v3.4.0/mapbox-gl.css' rel='stylesheet' />
 </head>
 <body>
-    <h1>{{ msg }}</h1>
+    <div class="search-container">
+        <input type="text" name="search" id="search" placeholder="Find your city">
+        <div class="suggestions">
+            <ul></ul>
+        </div>
+    </div>
+    {% block content %} {% endblock %}
+    <script src="static/script.js"></script>
 </body>
 </html>

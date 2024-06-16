@@ -24,24 +24,51 @@ connect_db(app)
 with app.app_context():
     db.create_all()
 
+res = requests.get("https://api.citybik.es/v2/networks/?fields=location,id,company,name")
+res = res.json()
+networks=res["networks"]
+
 @app.route("/")
 def homepage():
-    Network.query.delete()
-    # clearing db to get all current networks in case API updates them
-    
-    res = requests.get("https://api.citybik.es/v2/networks/?fields=location,id,company,name")
+    # res = requests.get("https://api.citybik.es/v2/networks/?fields=location,id,company,name")
+    # res = res.json()
+    # networks=res["networks"]
+
+ # remove database component, just create network list directly from API
+ # We pass the whole network list to HTML
+ # We create options for the Serach text box and show suggestions
+ # Once the user picks any one city, we gonna show network card downbelow
+ # On clicking on a particular network card we gonna take him to a new tab with router /:networkname
+
+    # for network in networks:
+    #     newNetwork = Network(
+    #         company = network["company"],
+    #         id = network["id"],
+    #         city = network["location"]["city"],
+    #         name = network["name"]
+    #     )
+    #     db.session.add(newNetwork)
+
+    # db.session.commit()
+
+    # cities = []
+    # for r in db.session.query(Network.city).all():
+    #     city = r[0]
+    #     cities.append(city)
+
+
+    return render_template("index.html", networks = networks)
+
+@app.route("/<networkid>")
+def displayCity(networkid):
+    res = requests.get(f"https://api.citybik.es/v2/networks/{networkid}")
     res = res.json()
-    networks=res["networks"]
+    network = res["network"]
 
-    for network in networks:
-        newNetwork = Network(
-            company = network["company"],
-            id = network["id"],
-            city = network["location"]["city"],
-            name = network["name"]
-        )
-        db.session.add(newNetwork)
+        # city: nw["location"]["city"],
+        # country: nw["location"]["country"],
+        # stations: [i["name"] for i in nw["stations"]]
 
-    db.session.commit()
+    # matches = db.session.query(Network).filter(Network.city == cityname)
 
-    return render_template("index.html")
+    return render_template("city.html", networks = networks, nw = network)

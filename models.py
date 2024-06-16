@@ -19,6 +19,7 @@ def connect_db(app):
 # Ref: cityStations.id < stations.id
 
 
+
 class Station(db.Model):
     __tablename__= "stations"
 
