@@ -2,6 +2,7 @@
 from flask_bcrypt import Bcrypt
 from flask_sqlalchemy import SQLAlchemy
 
+bcrypt = Bcrypt()
 db = SQLAlchemy()
 
 
@@ -48,9 +49,32 @@ class User(db.Model):
     #     primaryjoin=(favourites.user_id == id),
     #     secondaryjoin=(favourites.station_id == id)
     # )
+    @classmethod
+    def register(cls, username, password):
+
+        encrypted_pwd = bcrypt.generate_password_hash(password).decode('UTF-8')
+        
+        user = User(
+            username = username,
+            password = encrypted_pwd
+        )
+        db.session.add(user)
+        return user
+    
+    @classmethod
+    def authenticate(cls, username, password):
+        user = cls.query.filter_by(username=username).first()
+
+        if user:
+            is_auth = bcrypt.check_password_hash(user.password, password)
+            if is_auth:
+                return user
+
+        return False
 
 class Favourites(db.Model):
     __tablename__= "favourites"
 
     user_id = db.Column(db.Integer,db.ForeignKey('users.id', ondelete="cascade"),primary_key=True)
     station_id = db.Column(db.Integer,db.ForeignKey('stations.id', ondelete="cascade"),primary_key=True)
+

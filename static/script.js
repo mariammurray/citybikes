@@ -42,3 +42,5 @@ function useSuggestion(e) {
     let id = e.target.closest('li').id;
     window.location.href = '/' + id;
 }
+
+
