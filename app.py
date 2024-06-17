@@ -1,7 +1,7 @@
 from models import Station, Network, User, db, connect_db
 from forms import UserForm
 import requests, json
-from flask import Flask, render_template, session
+from flask import Flask, render_template, session, g
 
 
 NETWORKURL = "https://api.citybik.es/v2/networks/?fields=location,id,company,name"
@@ -87,3 +87,4 @@ def login():
         flash("Invalid credentials.", 'danger')
 
     return render_template('signup.html', form=form)
+

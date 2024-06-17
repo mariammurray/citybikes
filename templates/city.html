@@ -6,6 +6,7 @@
 
 <div id='map' style='width: 400px; height: 300px;'></div>
 <script>
+const network = JSON.parse('{{ nw|tojson }}');
 mapboxgl.accessToken = 'pk.eyJ1IjoibWFyaWFldm0iLCJhIjoiY2x4YnV5bjg4MDJxbzJvczV2bzEyZG4ybyJ9.cSYdfbsajTtOHiZljf4aRA';
 const map = new mapboxgl.Map({
 	container: 'map', // container ID
@@ -16,11 +17,17 @@ const map = new mapboxgl.Map({
 
 {% for s in nw["stations"] %}
 
-    new mapboxgl.Marker()
+  	this.marker = new mapboxgl.Marker()
         .setLngLat([ {{ s["longitude"] }}, {{ s["latitude"] }} ])
         .addTo(map);
+	this.marker._element.id = "{{ s['id'] }}"
+
 {% endfor %}
 </script>
 
+<div id = "stationInfo">
+
+
+</div>
 
 {% endblock %}

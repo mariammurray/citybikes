@@ -2,11 +2,14 @@
 
 const searchbar = document.querySelector('#search');
 const suggestions = document.querySelector('.suggestions ul');
+const mapDiv = document.querySelector('#map');
+const stationInfo = document.querySelector('#stationInfo');
 // let cities = JSON.parse(document.querySelector('#citylist').getAttribute('name'))
 
 
 searchbar.addEventListener('keyup', searchHandler);
 suggestions.addEventListener('click', useSuggestion);
+mapDiv.addEventListener('click', showStation);
 
 
 
@@ -41,6 +44,17 @@ function showSuggestions(results, inputVal) {
 function useSuggestion(e) {
     let id = e.target.closest('li').id;
     window.location.href = '/' + id;
+}
+
+function showStation(e) {
+	let stationId = e.target.closest('div').id;
+	station = network["stations"].find(n => n.id == stationId);
+	stationInfo.innerHTML = `
+	<p>Address: ${ station.name }</p>
+    <p>Free bikes: ${ station.free_bikes }</p>
+    <p>Empty slots: ${ station.empty_slots }</p>
+	`
+	
 }
 
 
