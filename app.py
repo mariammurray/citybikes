@@ -1,7 +1,8 @@
-from models import Station, Network, User, db, connect_db
+from models import User, db, connect_db, Favourite
 from forms import UserForm
 import requests, json
-from flask import Flask, render_template, session, g
+from flask import Flask, render_template, session, g, redirect, flash
+from sqlalchemy.exc import IntegrityError
 
 
 NETWORKURL = "https://api.citybik.es/v2/networks/?fields=location,id,company,name"
@@ -10,6 +11,7 @@ CURR_USER_KEY = "curr_user"
 
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql:///citybikes'
+app.config['SECRET_KEY'] = "secret"
 
 connect_db(app)
 with app.app_context():
@@ -21,7 +23,6 @@ networks=res["networks"]
 
 @app.before_request
 def add_user_to_g():
-    """If we're logged in, add curr user to Flask global."""
 
     if CURR_USER_KEY in session:
         g.user = User.query.get(session[CURR_USER_KEY])
@@ -41,9 +42,17 @@ def homepage():
 
 @app.route("/<networkid>")
 def displayCity(networkid):
-    res = requests.get(f"https://api.citybik.es/v2/networks/{networkid}")
-    res = res.json()
-    network = res["network"]
+    data = []
+    network = []
+    try:
+        res = requests.get(f"https://api.citybik.es/v2/networks/{networkid}")
+        #print(res)
+        data = res.json()
+        network = data["network"]
+    except Exception as e:
+        print(e)
+    # print(res["network"])
+    # network = res["network"]
 
     return render_template("city.html", networks = networks, nw = network)
 
@@ -86,5 +95,34 @@ def login():
 
         flash("Invalid credentials.", 'danger')
 
-    return render_template('signup.html', form=form)
+    return render_template('signup.html', form=form, networks = networks)
 
+@app.route("/<networkid>/<stationid>")
+def addStation(networkid, stationid):
+    user = User.query.get(session[CURR_USER_KEY])
+    if user:
+        fav = Favourite(
+            user_id = user.id,
+            station_id = stationid,
+            network_id = networkid
+        )
+        db.session.add(fav)
+        db.session.commit()
+    else:
+        flash("Log in", "danger")
+        return redirect("/")
+    
+
+    return redirect("/favourites")
+
+@app.route("/favourites")
+def showFavourites():
+    favs = db.session.query(Favourite).filter(Favourite.user_id == session[CURR_USER_KEY]).all()
+    favArr = []
+    for i in favs:
+        res = requests.get(f"https://api.citybik.es/v2/networks/{i.network_id}")
+        data = res.json()
+        station = [station for station in data["network"]["stations"] if station["id"] == i.station_id]
+        favArr+=station
+
+    return render_template("favourites.html", networks = networks, favourites = favArr)

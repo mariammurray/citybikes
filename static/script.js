@@ -4,6 +4,7 @@ const searchbar = document.querySelector('#search');
 const suggestions = document.querySelector('.suggestions ul');
 const mapDiv = document.querySelector('#map');
 const stationInfo = document.querySelector('#stationInfo');
+const addButton = document.querySelector('#addButton');
 // let cities = JSON.parse(document.querySelector('#citylist').getAttribute('name'))
 
 
@@ -49,12 +50,17 @@ function useSuggestion(e) {
 function showStation(e) {
 	let stationId = e.target.closest('div').id;
 	station = network["stations"].find(n => n.id == stationId);
+	networkId = network["id"]
 	stationInfo.innerHTML = `
 	<p>Address: ${ station.name }</p>
     <p>Free bikes: ${ station.free_bikes }</p>
     <p>Empty slots: ${ station.empty_slots }</p>
+	<form>
+	<button type = submit id="addButton" formaction= "/${networkId}/${stationId}"> Add station to favourites </button>
+	</form>
 	`
 	
+
 }
 
 

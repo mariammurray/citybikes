@@ -43,12 +43,6 @@ class User(db.Model):
     username = db.Column(db.Text, unique=True)
     password = db.Column(db.Text,nullable=False)
 
-    # favStations = db.relationship(
-    #     "Stations",
-    #     secondary="favourites",
-    #     primaryjoin=(favourites.user_id == id),
-    #     secondaryjoin=(favourites.station_id == id)
-    # )
     @classmethod
     def register(cls, username, password):
 
@@ -72,9 +66,11 @@ class User(db.Model):
 
         return False
 
-class Favourites(db.Model):
+class Favourite(db.Model):
     __tablename__= "favourites"
 
-    user_id = db.Column(db.Integer,db.ForeignKey('users.id', ondelete="cascade"),primary_key=True)
-    station_id = db.Column(db.Integer,db.ForeignKey('stations.id', ondelete="cascade"),primary_key=True)
+    id = db.Column(db.Integer, primary_key= True)
+    user_id = db.Column(db.Integer,db.ForeignKey('users.id', ondelete="cascade"))
+    station_id = db.Column(db.Text)
+    network_id =db.Column(db.Text)
 
