@@ -1,0 +1,119 @@
+*{
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif
+}
+html {
+    height: 100%;
+}
+
+body {
+    /* background-color: rgba(4, 107, 64, 0.253); */
+    margin: 0%;
+    /* background-color: rgb(255, 255, 255); */
+    background-image: linear-gradient( rgb(255, 255, 255), 80%, rgb(32, 146, 70));
+}
+
+.header{
+    margin-top: 10px;
+}
+.searchbar {
+    background-color: #ffffff;
+    height: 46px;
+    border: 3px solid rgb(105, 69, 53);
+    border-radius: 20px;
+    width: 70%;
+    display: inline-block;
+    margin-left: 15%;
+}
+
+.buttons{
+    display: inline-block;
+    position: absolute;
+    margin-top: 10px;
+}
+
+#search {
+    padding-top: 5px;
+    width: 100%;
+    background: none;
+    border: none;
+    outline: none;
+    height: 30px;
+    text-align: center;
+    font-size: large;
+    color:rgb(105, 69, 53)
+}
+::placeholder {
+    color:rgb(105, 69, 53)
+}
+
+button{
+    background-color: rgb(105, 69, 53);
+    color: #ffffff;
+    border-radius: 10px;
+    padding: none;
+    margin: none;
+    margin-left:5px;
+    font-size: large;
+}
+
+.map-container{
+    width: 100%;
+}
+
+.city-name{
+    text-align: center;
+    color: rgb(105, 69, 53);
+}
+
+#map {
+    border: rgb(105, 69, 53) 3px solid;
+    border-radius: 20px;
+    padding: 10px;
+    box-shadow: 6px 4px 8px;
+}
+
+
+#map {
+    width: 600px; 
+    height: 600px;
+    margin-inline: auto;
+}
+
+.suggestions{
+    position: relative;
+    background-color: #ffffff;
+    z-index: 1;
+    margin-inline: 25%;
+    padding: 0;
+}
+
+ul {
+    list-style-type: none;
+    color:rgb(105, 69, 53)
+}
+ul li:hover {
+    background-color: rgb(32, 146, 70);
+  }
+
+.mapboxgl-marker {
+    color:rgb(105, 69, 53)
+}
+
+#stationInfo{
+    text-align: center;
+    color: #ffffff;
+}
+
+.favourites{
+    text-align: center;
+    color:#ffffff;
+}
+
+.favcard{
+    background-color: rgb(77, 158, 104);
+    margin-inline: 25%;
+    border: rgb(105, 69, 53) 3px solid;
+    border-radius: 20px;
+    padding-top: 10px;
+    margin-top: 20px;
+}

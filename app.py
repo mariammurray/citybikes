@@ -30,10 +30,6 @@ def add_user_to_g():
     else:
         g.user = None
 
-def do_login(user):
-    """Log in user."""
-
-    session[CURR_USER_KEY] = user.id
 
 @app.route("/")
 def homepage():
@@ -51,8 +47,7 @@ def displayCity(networkid):
         network = data["network"]
     except Exception as e:
         print(e)
-    # print(res["network"])
-    # network = res["network"]
+
 
     return render_template("city.html", networks = networks, nw = network)
 
@@ -73,12 +68,25 @@ def signup():
             flash("Username already taken", 'danger')
             return render_template('signup.html', form=form)
 
-        do_login(user)
+        session[CURR_USER_KEY] = user.id
 
         return redirect("/")
 
     else:
         return render_template('signup.html', form=form)
+    
+@app.route('/logout')
+def logout():
+    """Handle logout of user."""
+
+    if not g.user:
+        flash("Access unauthorized.", "danger")
+        return redirect("/")
+    
+    if CURR_USER_KEY in session:
+        del session[CURR_USER_KEY]
+
+    return redirect("/login")
     
 @app.route('/login', methods=["GET", "POST"])
 def login():

@@ -44,23 +44,21 @@ function showSuggestions(results, inputVal) {
 
 function useSuggestion(e) {
     let id = e.target.closest('li').id;
+	suggestions.innerHTML="";
     window.location.href = '/' + id;
 }
 
 function showStation(e) {
 	let stationId = e.target.closest('div').id;
 	station = network["stations"].find(n => n.id == stationId);
-	networkId = network["id"]
+	networkId = network["id"];
 	stationInfo.innerHTML = `
 	<p>Address: ${ station.name }</p>
-    <p>Free bikes: ${ station.free_bikes }</p>
-    <p>Empty slots: ${ station.empty_slots }</p>
+    <p>Free bikes: ${ station.free_bikes }    Empty slots: ${ station.empty_slots }</p>
 	<form>
 	<button type = submit id="addButton" formaction= "/${networkId}/${stationId}"> Add station to favourites </button>
 	</form>
 	`
-	
-
 }
 
 

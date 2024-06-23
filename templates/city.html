@@ -1,10 +1,11 @@
 {% extends 'index.html' %}
 
 {% block content %}
-<h1>{{nw["location"]["city"]}}, {{nw["location"]["country"]}}</h1>
-<!-- <p>{{ nw["stations"] }}</p> -->
 
-<div id='map' style='width: 400px; height: 300px;'></div>
+<div class= 'map-container'>
+	<h1 class="city-name">{{nw["location"]["city"]}}, {{nw["location"]["country"]}}</h1>
+	<div id='map'></div>
+</div>
 <script>
 const network = JSON.parse('{{ nw|tojson }}');
 mapboxgl.accessToken = 'pk.eyJ1IjoibWFyaWFldm0iLCJhIjoiY2x4YnV5bjg4MDJxbzJvczV2bzEyZG4ybyJ9.cSYdfbsajTtOHiZljf4aRA';
@@ -12,7 +13,7 @@ const map = new mapboxgl.Map({
 	container: 'map', // container ID
 	style: 'mapbox://styles/mapbox/streets-v12', // style URL
 	center: [{{nw["location"]["longitude"]}}, {{nw["location"]["latitude"]}}], // starting position [lng, lat]
-	zoom: 9, // starting zoom
+	zoom: 11
 });
 
 {% for s in nw["stations"] %}
@@ -24,10 +25,5 @@ const map = new mapboxgl.Map({
 
 {% endfor %}
 </script>
-
-<div id = "stationInfo">
-
-</div>
-<!-- <button id="addButton"> Add station to favourites </button> -->
-
+<div id = "stationInfo"></div>
 {% endblock %}

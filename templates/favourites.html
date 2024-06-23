@@ -2,13 +2,15 @@
 
 {% block content %}
 
+<div class="favourites">
 <h1>Your Stations</h1>
     {% for station in favourites %}
-
+    <div class = "favcard">
         <b>{{ station["name"] }}</b>
-        <p>Free bikes: {{ station["free_bikes"] }}</p>
-        <p>Empty slots: {{ station["empty_slots"] }}</p>
 
+        <p> {{ station["free_bikes"] }} free bikes and 
+            {{ station["empty_slots"] }} empty slots</p>
+    </div>    
     {% endfor %}
-
+</div>
 {% endblock %}

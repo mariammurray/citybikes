@@ -3,24 +3,41 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Citybikes</title>
+    <title>FindMyBike</title>
     <script>
         const networks = JSON.parse('{{ networks|tojson }}');
     </script>
+    <link rel="stylesheet" href="/static/style.css">    
     <script src='https://api.mapbox.com/mapbox-gl-js/v3.4.0/mapbox-gl.js'></script>
     <link href='https://api.mapbox.com/mapbox-gl-js/v3.4.0/mapbox-gl.css' rel='stylesheet' />
 </head>
 <body>
-    <div class="search-container">
-        <input type="text" name="search" id="search" placeholder="Find your city">
-        <div class="suggestions">
-            <ul></ul>
-        </div>
+    <div class = "header">
+    <div class = "searchbar">
+        <span class="search-container">
+            <input type="text" name="search" id="search" placeholder="Find your city...">
+            <div class="suggestions">
+                <ul></ul>
+            </div>
+        </span>
     </div>
-    <a href = "/signup">
-        <button>Login/Signup</button>
-    </a>
+
+    <div class = "buttons"> 
+        
+        <a href = "/signup">
+            {% if g.user %}
+            <a href = "/favourites"><button>Favourites</button></a>
+            <a href = "/logout"><button>Log Out</button></a>
+            {% else %}
+            <a href = "/signup"> <button>Login/Signup</button></a>
+            {% endif %}
+        
+    </div> 
+
+    </div>  
+
     {% block content %} {% endblock %}
+
     <script src="static/script.js"></script>
 </body>
 </html>
