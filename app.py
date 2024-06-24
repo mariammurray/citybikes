@@ -1,6 +1,6 @@
 from models import User, db, connect_db, Favourite
 from forms import UserForm
-import requests, json
+import requests
 from flask import Flask, render_template, session, g, redirect, flash
 from sqlalchemy.exc import IntegrityError
 
@@ -40,14 +40,9 @@ def homepage():
 def displayCity(networkid):
     data = []
     network = []
-    try:
-        res = requests.get(f"https://api.citybik.es/v2/networks/{networkid}")
-        #print(res)
-        data = res.json()
-        network = data["network"]
-    except Exception as e:
-        print(e)
-
+    res = requests.get(f"https://api.citybik.es/v2/networks/{networkid}")
+    data = res.json()
+    network = data["network"]
 
     return render_template("city.html", networks = networks, nw = network)
 
@@ -57,6 +52,7 @@ def signup():
     form = UserForm()
 
     if form.validate_on_submit():
+        
         try:
             user = User.register(
                 username=form.username.data,
@@ -74,6 +70,7 @@ def signup():
 
     else:
         return render_template('signup.html', form=form)
+
     
 @app.route('/logout')
 def logout():
@@ -98,7 +95,7 @@ def login():
                                  form.password.data)
 
         if user:
-            do_login(user)
+            session[CURR_USER_KEY] = user.id
             return redirect("/")
 
         flash("Invalid credentials.", 'danger')

@@ -18,7 +18,7 @@ const map = new mapboxgl.Map({
 
 {% for s in nw["stations"] %}
 
-  	this.marker = new mapboxgl.Marker()
+  	this.marker = new mapboxgl.Marker({color: "#694535"})
         .setLngLat([ {{ s["longitude"] }}, {{ s["latitude"] }} ])
         .addTo(map);
 	this.marker._element.id = "{{ s['id'] }}"

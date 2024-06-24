@@ -43,7 +43,7 @@ body {
     color:rgb(105, 69, 53)
 }
 ::placeholder {
-    color:rgb(105, 69, 53)
+    color:#694535
 }
 
 button{
@@ -110,7 +110,7 @@ ul li:hover {
 }
 
 .favcard{
-    background-color: rgb(77, 158, 104);
+    background-color: rgb(32, 146, 70);
     margin-inline: 25%;
     border: rgb(105, 69, 53) 3px solid;
     border-radius: 20px;
