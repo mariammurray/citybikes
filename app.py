@@ -17,7 +17,7 @@ connect_db(app)
 with app.app_context():
     db.create_all()
 
-res = requests.get("https://api.citybik.es/v2/networks/?fields=location,id,company,name")
+res = requests.get("https://api.citybik.es/v2/networks/?fields=location,id,name")
 res = res.json()
 networks=res["networks"]
 
@@ -69,7 +69,7 @@ def signup():
         return redirect("/")
 
     else:
-        return render_template('signup.html', form=form)
+        return render_template('signup.html', form=form, networks = networks)
 
     
 @app.route('/logout')
@@ -83,7 +83,7 @@ def logout():
     if CURR_USER_KEY in session:
         del session[CURR_USER_KEY]
 
-    return redirect("/login")
+    return redirect("/")
     
 @app.route('/login', methods=["GET", "POST"])
 def login():
@@ -104,19 +104,23 @@ def login():
 
 @app.route("/<networkid>/<stationid>")
 def addStation(networkid, stationid):
-    user = User.query.get(session[CURR_USER_KEY])
-    if user:
-        fav = Favourite(
-            user_id = user.id,
-            station_id = stationid,
-            network_id = networkid
-        )
-        db.session.add(fav)
-        db.session.commit()
-    else:
+    try:
+        user = User.query.get(session.get[CURR_USER_KEY, "curr_user"])
+        if user:
+            fav = Favourite(
+                user_id = user.id,
+                station_id = stationid,
+                network_id = networkid
+            )
+            db.session.add(fav)
+            db.session.commit()
+    except KeyError:
         flash("Log in", "danger")
         return redirect("/")
-    
+    except Exception:
+        flash("Something went wrong!", "danger")
+        return redirect("/")
+
 
     return redirect("/favourites")
 
@@ -125,9 +129,13 @@ def showFavourites():
     favs = db.session.query(Favourite).filter(Favourite.user_id == session[CURR_USER_KEY]).all()
     favArr = []
     for i in favs:
-        res = requests.get(f"https://api.citybik.es/v2/networks/{i.network_id}")
-        data = res.json()
-        station = [station for station in data["network"]["stations"] if station["id"] == i.station_id]
-        favArr+=station
+        try:
+            res = requests.get(f"https://api.citybik.es/v2/networks/{i.network_id}")
+            if res is not None:
+                data = res.json()
+                station = [station for station in data["network"]["stations"] if station["id"] == i.station_id]
+                favArr+=station
+        except Exception as e:
+            print(e);
 
     return render_template("favourites.html", networks = networks, favourites = favArr)

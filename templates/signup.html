@@ -1,11 +1,5 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Document</title>
-</head>
-<body>
+{% extends 'index.html' %}
+{% block content %}
   
   <form method="POST" id="new_user_form">
     {{ form.hidden_tag() }}
@@ -17,10 +11,8 @@
       {{ field(placeholder=field.label.text, class="form-control") }}
     {% endfor %}
 
-    <button>Sign up!</button>
+    <br><button class="signupbtn">Sign up!</button>
   </form>
 
-</body>
-</html>
-
+{% endblock %}
 
