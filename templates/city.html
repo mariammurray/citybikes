@@ -1,0 +1,29 @@
+{% extends 'index.html' %}
+
+{% block content %}
+
+<div class= 'map-container'>
+	<h1 class="city-name">{{nw["location"]["city"]}}, {{nw["location"]["country"]}}</h1>
+	<div id='map'></div>
+</div>
+<script>
+const network = JSON.parse('{{ nw|tojson }}');
+mapboxgl.accessToken = 'pk.eyJ1IjoibWFyaWFldm0iLCJhIjoiY2x4YnV5bjg4MDJxbzJvczV2bzEyZG4ybyJ9.cSYdfbsajTtOHiZljf4aRA';
+const map = new mapboxgl.Map({
+	container: 'map', // container ID
+	style: 'mapbox://styles/mapbox/streets-v12', // style URL
+	center: [{{nw["location"]["longitude"]}}, {{nw["location"]["latitude"]}}], // starting position [lng, lat]
+	zoom: 11
+});
+
+{% for s in nw["stations"] %}
+
+  	this.marker = new mapboxgl.Marker({color: "#694535"})
+        .setLngLat([ {{ s["longitude"] }}, {{ s["latitude"] }} ])
+        .addTo(map);
+	this.marker._element.id = "{{ s['id'] }}"
+
+{% endfor %}
+</script>
+<div id = "stationInfo"></div>
+{% endblock %}
