@@ -3,6 +3,7 @@ from forms import UserForm
 import requests
 from flask import Flask, render_template, session, g, redirect, flash
 from sqlalchemy.exc import IntegrityError
+import os
 
 
 NETWORKURL = "https://api.citybik.es/v2/networks/?fields=location,id,company,name"
@@ -10,8 +11,9 @@ CURR_USER_KEY = "curr_user"
 
 
 app = Flask(__name__)
-app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql:///citybikes'
-app.config['SECRET_KEY'] = "secret"
+# app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql:///citybikes'
+app.config['SQLALCHEMY_DATABASE_URI'] = os.getenv('SQLALCHEMY_DATABASE_URI')
+app.config['SECRET_KEY'] = os.getenv('SECRET_KEY')
 
 connect_db(app)
 with app.app_context():
