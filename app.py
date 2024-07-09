@@ -34,7 +34,7 @@ def add_user_to_g():
 @app.route("/")
 def homepage():
 
-    return render_template("index.html", networks = networks)
+    return render_template("home.html", networks = networks)
 
 @app.route("/<networkid>")
 def displayCity(networkid):
@@ -105,8 +105,12 @@ def login():
 @app.route("/<networkid>/<stationid>")
 def addStation(networkid, stationid):
     try:
-        user = User.query.get(session.get[CURR_USER_KEY, "curr_user"])
+        print("Init")
+        current_user = session.get(CURR_USER_KEY);
+
+        user = User.query.get(current_user)
         if user:
+            print("user in session")
             fav = Favourite(
                 user_id = user.id,
                 station_id = stationid,
@@ -114,15 +118,20 @@ def addStation(networkid, stationid):
             )
             db.session.add(fav)
             db.session.commit()
+            return redirect("/favourites")
     except KeyError:
         flash("Log in", "danger")
-        return redirect("/")
-    except Exception:
+        print("should redirect login")
+        return redirect("/login")
+    except Exception as e:
         flash("Something went wrong!", "danger")
+        print("other exception")
+        print(e);
         return redirect("/")
+    
+    flash("Log in", "danger")
+    return redirect("/login")
 
-
-    return redirect("/favourites")
 
 @app.route("/favourites")
 def showFavourites():
