@@ -53,8 +53,10 @@ function showStation(e) {
 	station = network["stations"].find(n => n.id == stationId);
 	networkId = network["id"];
 	stationInfo.innerHTML = `
+	<div class="station-text">
 	<p>Address: ${ station.name }</p>
     <p>Free bikes: ${ station.free_bikes }    Empty slots: ${ station.empty_slots }</p>
+	</div>
 	<form>
 	<button type = submit id="addButton" formaction= "/${networkId}/${stationId}"> Add station to favourites </button>
 	</form>

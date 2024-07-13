@@ -13,7 +13,7 @@ const map = new mapboxgl.Map({
 	container: 'map', // container ID
 	style: 'mapbox://styles/mapbox/streets-v12', // style URL
 	center: [{{nw["location"]["longitude"]}}, {{nw["location"]["latitude"]}}], // starting position [lng, lat]
-	zoom: 11
+	zoom: 13
 });
 
 {% for s in nw["stations"] %}

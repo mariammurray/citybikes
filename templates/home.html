@@ -13,17 +13,6 @@
     <link href='https://api.mapbox.com/mapbox-gl-js/v3.4.0/mapbox-gl.css' rel='stylesheet' />
 </head>
 <body>
-    <div class = "homepage">
-    <div class = "searchbar">
-        <span class="search-container">
-            <input type="text" name="search" id="search" placeholder="Find your city...">
-            <div class="suggestions">
-                <ul></ul>
-            </div>
-        </span>
-    
-    </div> 
-    </div> 
     <div class = "home-buttons"> 
         
         <a href = "/signup">
@@ -36,6 +25,17 @@
             {% endif %}
         
     </div>  
+    <div class = "homepage">
+    <div class = "searchbar">
+        <span class="search-container">
+            <input type="text" name="search" id="search" placeholder="Find your city...">
+            <div class="suggestions">
+                <ul></ul>
+            </div>
+        </span>
+    
+    </div> 
+    </div> 
 
     {% block content %} {% endblock %}
 

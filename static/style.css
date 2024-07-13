@@ -8,8 +8,10 @@ html {
 body {
     /* background-color: rgba(4, 107, 64, 0.253); */
     margin: 0%;
+    background-image: url(street.jpg);
+    background-size: cover;
     /* background-color: rgb(255, 255, 255); */
-    background-image: linear-gradient( rgb(255, 255, 255), 80%, rgb(32, 146, 70));
+    /* background-image: linear-gradient( rgb(255, 255, 255), 80%, rgb(32, 146, 70)); */
 }
 
 .header{
@@ -81,15 +83,20 @@ button{
 
 .suggestions{
     position: relative;
-    background-color: #ffffff;
     z-index: 1;
     margin-inline: 25%;
     padding: 0;
+    margin-top: 0;
+}
+.search-container{
+    padding:0;
+    margin: 0;
 }
 
 ul {
     list-style-type: none;
-    color:rgb(105, 69, 53)
+    color:rgb(105, 69, 53);
+    background-color: #ffffff;
 }
 ul li:hover {
     background-color: rgb(32, 146, 70);
@@ -100,8 +107,21 @@ ul li:hover {
 }
 
 #stationInfo{
+    padding-top: 10px;
     text-align: center;
     color: #ffffff;
+}
+.station-text{
+    text-align: center;
+    color:#694535;
+    border: #694535 3px solid;
+    background-color: #ffffff;
+    border-radius: 20px;
+    margin-inline: 35%;
+}
+
+#addButton{
+    margin-top: 10px;
 }
 
 .favourites{
@@ -150,3 +170,12 @@ ul li:hover {
     font-size: large;
 }
 
+.homepage{
+    margin-top: 10px;
+}
+
+.home-buttons{
+    margin-top: 20%;
+    text-align: right;
+    margin-right: 15%;
+}
